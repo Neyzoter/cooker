@@ -1,0 +1,11 @@
+# binary
+bin/
+
+# working dir
+/workdir/
+
+# data
+*.csv
+
+# idea
+!*.idea
