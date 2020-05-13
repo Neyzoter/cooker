@@ -6,6 +6,7 @@
 
 # data
 *.csv
+!*/synthetic_data_with_anomaly-s-1-Transpose.csv
 
 # idea
 /.idea/
