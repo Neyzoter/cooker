@@ -8,6 +8,7 @@ Cooker will become an advanced distributed remote application running platform!
   \/_____/   \/_____/   \/_____/   \/_/\/_/   \/_____/   \/_/ /_/ 
 ```
 ## Info
+
 |object|info|others|
 |-|-|-|
-|Golang|go1.13.6 linux/amd64||
+|Golang|go1.13.6 linux/amd64|null|
