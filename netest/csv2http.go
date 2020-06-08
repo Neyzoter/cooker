@@ -97,7 +97,7 @@ func getJson (row []string, timeMs int64) string{
 	vehicle := Vehicle{
 		App:       1,
 		Vid:       "4",
-		Vtype:     "mazida300",
+		Vtype:     "mazida",
 		RtDataMap: rtData,
 	}
 	vehicleHttpPack := VehicleHttpPack{
@@ -114,9 +114,11 @@ func getJson (row []string, timeMs int64) string{
 	vehicleHttpPackJsonStr := string(vehicleHttpPackJsonByte)
 	return vehicleHttpPackJsonStr
 }
+// 返回OK的个数
+var respOKNum = 0;
 
 // http request
-func httpRequest (body string) {
+func httpRequest (body string) (r string) {
 	url := "http://localhost:8085/iov/api/runtime-data/vehicleHttpPack"
 	contentType := "application/json"
 	resp, err := http.Post(url, contentType, strings.NewReader(body))
@@ -124,10 +126,15 @@ func httpRequest (body string) {
 		fmt.Println(err)
 	}
 	defer resp.Body.Close()
-	_, err = ioutil.ReadAll(resp.Body)
+	b, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
 		fmt.Println(err)
 	}
+	response := string(b[:])
+	//if strings.Compare(response, "OK") == 0 {
+	//	respOKNum ++;
+	//}
+	return response
 	//fmt.Println(string(body))
 }
 
@@ -142,7 +149,9 @@ func readCsvAll (filename string) [][]string{
 	return content
 }
 
-func main() {
+func sendTest () {
+	//// use 8 kernel
+	//runtime.GOMAXPROCS(8)
 	fileName := "/home/scc/code/go/cooker/netest/synthetic_data_with_anomaly-s-1-Transpose.csv"
 	//fileName := "/home/scc/code/go/cooker/netest/test.csv"
 
@@ -160,15 +169,13 @@ func main() {
 	//	timeMs += 10
 	//	lines ++
 	//}
-
-	// read each line
 	fs, err := os.Open(fileName)
 	if err != nil {
 		log.Fatalf("can not open the file, err is %+v", err)
 	}
 	defer fs.Close()
 	r := csv.NewReader(fs)
-	for maxCycle := 20000;maxCycle > 0; maxCycle --{
+	for maxCycle := 1000;maxCycle > 0; maxCycle --{
 		row, err := r.Read()
 		if err != nil && err != io.EOF {
 			log.Fatalf("can not read, err is %+v", err)
@@ -189,5 +196,7 @@ func main() {
 
 	endtime := time.Now().UnixNano() / 1e6
 
-	fmt.Printf("Send %d points in %d ms\n",lines, endtime - startime)
+	fmt.Printf("Send %d points in %d ms\n Received %d OK (%.2f %%)",lines, endtime - startime, respOKNum, float32(respOKNum) / float32(lines) * 100.0)
 }
+
+

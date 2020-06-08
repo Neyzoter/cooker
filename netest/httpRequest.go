@@ -16,7 +16,7 @@ func main() {
 	contentType := "application/json"
 	for cycle := 1; cycle > 0 ; cycle --  {
 		json := "{\"year\":\"2019\",\"month\":\"9\"," +
-			"\"day\":\"10\",\"sign\":\"123\",\"vehicle\":{\"app\":\"10\",\"vid\":\"5\",\"vtype\":\"dongfeng899\"," +
+			"\"day\":\"10\",\"sign\":\"123\",\"vehicle\":{\"app\":\"10\",\"vid\":\"5\",\"vtype\":\"mazida\"," +
 			"\"rtDataMap\":{\"REPLACE_TIME_1\":{\"speed\":\"REPLACE_SPEED_1\",\"ecuMaxTemp\":\"REPLACE_ECU_MAX_TEMP_1\"},\"REPLACE_TIME_2\":" +
 			"{\"speed\":\"REPLACE_SPEED_2\",\"ecuMaxTemp\":\"REPLACE_ECU_MAX_TEMP_2\"},\"REPLACE_TIME_3\":{\"speed\":\"REPLACE_SPEED_3\",\"ecuMaxTemp\":\"REPLACE_ECU_MAX_TEMP_3\"}," +
 			"\"REPLACE_TIME_4\":{\"speed\":\"REPLACE_SPEED_4\",\"ecuMaxTemp\":\"REPLACE_ECU_MAX_TEMP_4\"}}}}"
