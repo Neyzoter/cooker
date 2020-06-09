@@ -9,7 +9,9 @@ import (
 	"time"
 )
 
-func sendBoom () {
+var timeMs = time.Now().UnixNano() / 1e6
+var row []string
+func send () {
 	start := time.Now()
 	elapsed := time.Since(start)
 	body := getJson(row, timeMs)
@@ -17,14 +19,16 @@ func sendBoom () {
 	// http request
 	resp := httpRequest(body)
 	if strings.Compare(resp, "OK") == 0 {
-		boomer.RecordSuccess("http", "send", elapsed.Nanoseconds() / int64(time.Millisecond), int64(10))
+		globalBoomer.RecordSuccess("http", "send", elapsed.Nanoseconds() / int64(time.Millisecond), int64(10))
 	} else {
-		boomer.RecordFailure("http", "send", elapsed.Nanoseconds() / int64(time.Millisecond), "http error")
+		globalBoomer.RecordFailure("http", "send", elapsed.Nanoseconds() / int64(time.Millisecond), "http error")
 	}
 
 }
 
-func boomerRunner() {
+var globalBoomer *boomer.Boomer
+
+func globalBoomerRunner() {
 
 	fileName := "/home/scc/code/go/cooker/netest/synthetic_data_with_anomaly-s-1-Transpose.csv"
 
@@ -43,6 +47,10 @@ func boomerRunner() {
 		Fn: send,
 	}
 
-	boomer.Run(task)
+	numClients := 8
+	// 无限循环运行之前，计算了停止的时间（sleep_time = 1.0 / self.hatch_rate），也就是说利用了sleep来达到每秒运行多少用户的效果。
+	hatchRate := 10.0
+	globalBoomer := boomer.NewStandaloneBoomer(numClients, hatchRate)
+	globalBoomer.Run(task)
 
 }
