@@ -129,6 +129,7 @@ func httpRequest (body string) (r string) {
 	b, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
 		fmt.Println(err)
+		return "ERR"
 	}
 	response := string(b[:])
 	//if strings.Compare(response, "OK") == 0 {

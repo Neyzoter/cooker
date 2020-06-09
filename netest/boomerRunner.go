@@ -15,13 +15,13 @@ func sendBoom () {
 	body := getJson(row, timeMs)
 	timeMs ++
 	// http request
+	// return OK : success
 	resp := httpRequest(body)
 	if strings.Compare(resp, "OK") == 0 {
 		boomer.RecordSuccess("http", "send", elapsed.Nanoseconds() / int64(time.Millisecond), int64(10))
 	} else {
 		boomer.RecordFailure("http", "send", elapsed.Nanoseconds() / int64(time.Millisecond), "http error")
 	}
-
 }
 
 func boomerRunner() {
