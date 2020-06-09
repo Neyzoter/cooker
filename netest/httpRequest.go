@@ -10,7 +10,7 @@ import (
 	"time"
 )
 
-func main() {
+func httpReq () {
 	url := "http://localhost:8085/iov/api/runtime-data/vehicleHttpPack"
 	fmt.Println(url)
 	contentType := "application/json"
