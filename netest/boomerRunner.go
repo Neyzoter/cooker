@@ -40,7 +40,7 @@ func boomerRunner() {
 		Name: "send",
 		// The weight is used to distribute goroutines over multiple tasks.
 		Weight: 10,
-		Fn: send,
+		Fn: sendBoom,
 	}
 
 	boomer.Run(task)
